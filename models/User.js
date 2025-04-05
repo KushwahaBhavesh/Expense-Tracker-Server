@@ -4,31 +4,38 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    required: [true, 'Email is required'],
     unique: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
   },
   password: {
     type: String,
-    required: true,
-    minlength: 6
+    required: [true, 'Password is required'],
+    minlength: [6, 'Password must be at least 6 characters long']
   },
   name: {
     type: String,
-    required: true,
-    trim: true
+    required: [true, 'Name is required'],
+    trim: true,
+    minlength: [2, 'Name must be at least 2 characters long']
   },
   currency: {
     type: String,
     required: true,
     default: 'USD',
-    enum: ['USD', 'EUR', 'GBP', 'JPY', 'INR', 'AUD', 'CAD']
+    enum: {
+      values: ['USD', 'EUR', 'GBP', 'JPY', 'INR', 'AUD', 'CAD'],
+      message: '{VALUE} is not a supported currency'
+    }
   },
   createdAt: {
     type: Date,
     default: Date.now
   }
+}, {
+  timestamps: true
 });
 
 // Hash password before saving
@@ -49,7 +56,7 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
   try {
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
-    throw new Error('Error comparing passwords');
+    throw error;
   }
 };
 

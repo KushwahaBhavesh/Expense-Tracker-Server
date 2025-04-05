@@ -6,7 +6,10 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://expesnse.netlify.app'],
+  credentials: true
+}))
 app.use(express.json());
 
 // MongoDB Connection
@@ -15,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
-const expenseRoutes = require('./routes/expenses');
+const expenseRoutes = require('./routes/expenseRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 app.use('/api/expenses', expenseRoutes);

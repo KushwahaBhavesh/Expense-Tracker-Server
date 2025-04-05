@@ -14,7 +14,8 @@ const expenseSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   date: {
     type: Date,
@@ -23,12 +24,18 @@ const expenseSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   type: {
     type: String,
     required: true,
     enum: ['expense', 'income']
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
 }, {
   timestamps: true
