@@ -56,11 +56,10 @@ exports.register = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Register error:', error);
     if (error.name === 'ValidationError') {
       return res.status(400).json({ message: Object.values(error.errors).map(err => err.message) });
     }
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -112,8 +111,7 @@ exports.login = async (req, res) => {
       user: userData
     });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -126,8 +124,7 @@ exports.getUser = async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    console.error('Get user error:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -181,11 +178,10 @@ exports.updateProfile = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Update profile error:', error);
     if (error.name === 'ValidationError') {
       return res.status(400).json({ message: Object.values(error.errors).map(err => err.message) });
     }
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -218,10 +214,10 @@ exports.updateCurrency = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Update currency error:', error);
+
     if (error.name === 'ValidationError') {
       return res.status(400).json({ message: Object.values(error.errors).map(err => err.message) });
     }
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 }; 

@@ -23,8 +23,7 @@ exports.protect = async (req, res, next) => {
       return res.status(401).json({ message: 'Not authorized, token failed' });
     }
   } catch (error) {
-    console.error('Auth middleware error:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Internal Server error' });
   }
 };
 

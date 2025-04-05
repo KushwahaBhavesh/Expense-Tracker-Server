@@ -37,8 +37,7 @@ exports.getExpenses = async (req, res) => {
 
     res.json(expenses);
   } catch (error) {
-    console.error(error); // Helpful for debugging
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -97,8 +96,7 @@ exports.getMonthlySummary = async (req, res) => {
       categoryBreakdown: formattedBreakdown
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -121,7 +119,7 @@ exports.addExpense = async (req, res) => {
     const savedExpense = await expense.save();
     res.status(201).json(savedExpense);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -147,7 +145,7 @@ exports.updateExpense = async (req, res) => {
     const updatedExpense = await expense.save();
     res.json(updatedExpense);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -164,7 +162,7 @@ exports.deleteExpense = async (req, res) => {
 
     res.json({ message: 'Expense deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 };
 
@@ -201,6 +199,6 @@ exports.exportExpenses = async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename=expenses-${month}.csv`);
     res.send(csvContent);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Internal Server error', error });
   }
 }; 
